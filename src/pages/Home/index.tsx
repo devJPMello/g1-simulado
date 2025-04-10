@@ -1,3 +1,4 @@
+// src/pages/Home.tsx
 import { useEffect, useState } from 'react'
 import { CoffeeCard } from '../../components/CoffeeCard'
 import { Coffee, Package, ShoppingCart, Timer } from '@phosphor-icons/react'
@@ -5,6 +6,7 @@ import { useTheme } from 'styled-components'
 
 import { CoffeeList, Heading, Hero, HeroContent, Info } from './styles'
 import { api } from '../../serves/api'
+import { Loading } from '../../components/Loading'  // Importa o componente Loading
 
 interface Coffee {
   id: string;
@@ -65,7 +67,6 @@ export function Home() {
           <div>
             <Heading>
               <h1>Encontre o café perfeito para qualquer hora do dia</h1>
-
               <span>
                 Com o Coffee Delivery você recebe seu café onde estiver, a
                 qualquer hora
@@ -82,7 +83,6 @@ export function Home() {
                 />
                 <span>Compra simples e segura</span>
               </div>
-
               <div>
                 <Package
                   size={32}
@@ -92,7 +92,6 @@ export function Home() {
                 />
                 <span>Embalagem mantém o café intacto</span>
               </div>
-
               <div>
                 <Timer
                   size={32}
@@ -102,7 +101,6 @@ export function Home() {
                 />
                 <span>Entrega rápida e rastreada</span>
               </div>
-
               <div>
                 <Coffee
                   size={32}
@@ -114,21 +112,23 @@ export function Home() {
               </div>
             </Info>
           </div>
-
           <img src="/images/hero.svg" alt="Café do Coffee Delivery" />
         </HeroContent>
-
         <img src="/images/hero-bg.svg" id="hero-bg" alt="" />
       </Hero>
 
       {loading ? (
-        <p style={{ textAlign: 'center', padding: '2rem' }}>
-          Aguarde, estamos preparando o melhor café pra você!
-        </p>
+        <Loading />
       ) : (
         <CoffeeList>
           <h2>Nossos cafés</h2>
-          <div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(256px, 1fr))',
+              gap: '2rem',
+            }}
+          >
             {coffees.map((coffee) => (
               <CoffeeCard
                 key={coffee.id}
